@@ -1,0 +1,99 @@
+package database;
+import java.sql.*;
+ 
+public class DataBaseConn
+{
+// PreparedStatement pstmt=null;
+ 
+    public Connection conn=null; 
+ 
+    public Statement stmt = null;
+ 
+    public ResultSet rs=null;
+ 
+     String dbDriver="com.mysql.jdbc.Driver";
+ 
+     String url="jdbc:mysql://localhost/myDB?user=soft&password=soft1234&useUnicode=true&characterEncoding=utf-8";   
+ 
+     
+        // 实例化，装载JDBC驱动程序
+     public DataBaseConn()
+     {
+ 
+         try
+ 
+         {
+               Class.forName(dbDriver);
+ 
+ 
+             conn=DriverManager.getConnection(url,username,password);         
+ 
+         }
+           catch(Exception e){
+               e.printStackTrace();
+           }
+ 
+     }
+ 
+ 
+      
+         //取得数据库连接
+     public Connection getConnection()
+        {
+            return this.conn ;
+        }    
+  
+        // 返回查询后的数据集
+ 
+     public ResultSet executeQuery(String sql)
+     {
+         try
+         {
+             stmt=conn.createStatement();
+              rs=stmt.executeQuery(sql);
+         }
+ 
+          catch(SQLException e){
+              e.printStackTrace();
+ 
+          }
+          return rs;
+     }
+     
+     // 对数据库的更新操作
+ 
+     public int executeUpdate(String sql)
+     {
+         int num=0;
+       try
+         {  
+              stmt=conn.createStatement();
+              num=stmt.executeUpdate(sql);
+         }
+ 
+          catch(SQLException e){
+              e.printStackTrace();
+          }
+          return num;
+     }
+  
+ // 关闭数据库
+ 
+     public void closeDB()
+     {
+          try
+          {
+              if(conn!=null){
+                // rs.close();
+                  conn.close();
+              }      
+ 
+          }
+ 
+           catch(SQLException e) {
+               e.printStackTrace();
+           }
+     }
+ 
+      
+}
